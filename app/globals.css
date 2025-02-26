@@ -86,3 +86,32 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.tiptap {
+  min-height: 400px !important;
+  max-width: 100% !important;
+  padding: 20px !important;
+  font-size: 1.1rem !important;
+  line-height: 1.75 !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  border: 1px solid #ddd !important;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.tiptap:focus { 
+  outline: none !important;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
+}

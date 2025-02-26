@@ -2,6 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
+import {useState} from "react"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -17,6 +20,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { authClient } from "@/lib/auth-client"
+import { createProject } from "@/lib/actions/project.actions"
 
 const formSchema = z.object({
   projectName: z.string().min(2, {
@@ -24,24 +29,53 @@ const formSchema = z.object({
   }),
   description: z.string().optional(),
   dueDate: z.string().optional(),
-  priority: z.enum(["Low", "Normal", "High", "Critical"]).optional(),
-  status: z.enum(["Not Started", "In Progress", "Completed", "On Hold"]).optional(),
+  priority: z.enum(["LOW", "NORMAL", "HIGH", "CRITICAL"]).optional(),
+  status: z.enum(["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "ON_HOLD"]).optional(),
 })
 
 export function ProjectForm() {
+  const { data, isPending } = authClient.useSession()
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const id = data?.user?.id
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       projectName: "",
       description: "",
       dueDate: "",
-      priority: "Normal",
-      status: "Not Started",
+      priority: "NORMAL",
+      status: "NOT_STARTED",
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if(id && values && !isPending){
+      try{
+        setIsSubmitting(true)
+        const {success, data} =  await createProject(values, id)
+        console.log(data, 'data')
+        if(success && data){
+          toast.success('Project created successfully')
+          router.push(`/projects/${data?.id}`)
+
+
+        }else{
+          
+          toast.error('Project creation failed')
+        }
+
+        setIsSubmitting(false)
+
+      }catch(error){
+        toast.error('Project creation failed')
+        console.log(data, 'data')
+        setIsSubmitting(false)
+      }
+    }
+
+     
   }
 
   return (
@@ -94,10 +128,10 @@ export function ProjectForm() {
               <FormLabel className="text-lg font-semibold">Priority</FormLabel>
               <FormControl>
                 <select {...field} className="input w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500">
-                  <option value="Low">Low</option>
-                  <option value="Normal">Normal</option>
-                  <option value="High">High</option>
-                  <option value="Critical">Critical</option>
+                  <option value="LOW">Low</option>
+                  <option value="NORMAL">Normal</option>
+                  <option value="HIGH">High</option>
+                  <option value="CRITICAL">Critical</option>
                 </select>
               </FormControl>
               <FormMessage />
@@ -112,17 +146,17 @@ export function ProjectForm() {
               <FormLabel className="text-lg font-semibold">Status</FormLabel>
               <FormControl>
                 <select {...field} className="input w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500">
-                  <option value="Not Started">Not Started</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                  <option value="On Hold">On Hold</option>
+                  <option value="NOT_STARTED">Not Started</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="COMPLETED">Completed</option>
+                  <option value="ON_HOLD">On Hold</option>
                 </select>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">Create Project</Button>
+        <Button type="submit" className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">{isSubmitting ? 'Creating...' : 'Create Project'}</Button>
       </form>
     </Form>
   )
