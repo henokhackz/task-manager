@@ -1,76 +1,83 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
 import { Project, Task } from "@prisma/client";
+import { motion } from "framer-motion";
 
 type ProjectWithTasks = Project & {
-  tasks:Task[]
-}
+  tasks: Task[];
+};
 
-
-export function ProjectTable({projects}:{projects:ProjectWithTasks[]}) {
-  console.log(projects)
+export function ProjectTable({ projects }: { projects: ProjectWithTasks[] }) {
   return (
-    <div className="overflow-x-auto rounded-xl border shadow-lg p-4 flex flex-col py-4">
-                 <div className="flex justify-end items-center w-full">
-                    <Link href="/projects/new" className="text-medium font-medium text-white bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded-lg transition-all duration-300 flex-end">New Project</Link>
-                 </div>
-      <Table className="min-w-full py-6 px-4">
-        <TableCaption className="text-gray-500">A list of your recent projects.</TableCaption>
-        <TableHeader>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+      {projects.map((project) => (
+        <motion.div
+          key={project.id}
+          className="relative bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Project Card */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col justify-between items-start">
+              <h3 className="text-2xl font-semibold text-indigo-900 uppercase ">{project.projectName}</h3>
+              <span
+                className={clsx(
+                  "px-3 py-1 rounded-full text-sm font-extralight",
+                  project.status === "NOT_STARTED" && "bg-green-100 text-green-600",
+                  project.status === "IN_PROGRESS" && "bg-yellow-100 text-yellow-600",
+                  project.status === "COMPLETED" && "bg-red-100 text-red-600"
+                )}
+              >
+                {project.status}
+              </span>
+            </div>
+            <p className="text-gray-600">{project.description}</p>
+          </div>
 
-          <TableRow className=" text-gray-700 rounded-lg">
-            <TableHead className="w-1/3 px-4 py-2">Project</TableHead>
-            <TableHead className="w-1/3 px-4 py-2">Task</TableHead>
-            <TableHead className="w-1/3 px-4 py-2 text-right">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {projects.map((project) => (
-            <React.Fragment key={project.id} >
-             <TableRow className="odd:bg-blue-300/20 even:bg-pink-300/20 hover:bg-gray-300/20  transition-colors duration-300  ">
-                <TableCell className="px-4 py-3 font-semibold">
-             <Link href={`/projects/${project.id}`} className="w-full">
-                  {project.projectName}
-             </Link> 
-                </TableCell>
-                <TableCell colSpan={1} />
-                 <TableCell className={clsx("px-4 py-2 text-right", project.status === "NOT_STARTED" && "text-green-600", project.status === "IN_PROGRESS" && "text-yellow-600", project.status === "COMPLETED" && "text-red-600")}>
-    <Link href={`/projects/${project.id}`} className="w-full h-full block">
-      {project.status}
-    </Link>
-  </TableCell>
-              </TableRow>
+          {/* Task List under Project */}
+          <div className="mt-4">
+            <h4 className="font-medium text-gray-700">Tasks:</h4>
+            <div className="space-y-2">
               {project?.tasks?.map((task) => (
-               <TableRow key={task.title} className="odd:bg-pink-100/20 even:bg-blue-100/20 hover:bg-gray-100/20 transition-colors duration-300 cursor-pointer">
-  <TableCell />
-  <TableCell className="px-4 py-2 font-medium">
-    <Link href={`/projects/${project.id}/tasks/${task.id}`} className="w-full h-full block">
-      {task.title}
-    </Link>
-  </TableCell>
-  <TableCell className={clsx("px-4 py-2 text-right text-sm font-light", task.status === "PENDING" && "text-green-600/20", task.status === "IN_PROGRESS" && "text-yellow-600/20", task.status === "COMPLETED" && "text-red-600/20")}>
-    <Link href={`/projects/${project.id}/${task.id}`} className="w-full h-full block">
-      {task.status}
-    </Link>
-  </TableCell>
-</TableRow>
-
+                <div
+                  key={task.id}
+                  className="flex flex-col justify-center items-start gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200"
+                >
+                  <Link
+                    href={`/projects/${project.id}/tasks/${task.id}`}
+                    className="text-sm font-medium text-indigo-800 hover:text-indigo-600 capitalize"
+                  >
+                    {task.title}
+                  </Link>
+                  <span
+                    className={clsx(
+                      "px-3 py-1 text-xs rounded-full font-medium",
+                      task.status === "PENDING" && "bg-green-100 text-green-600",
+                      task.status === "IN_PROGRESS" && "bg-yellow-100 text-yellow-600",
+                      task.status === "COMPLETED" && "bg-red-100 text-red-600"
+                    )}
+                  >
+                    {task.status}
+                  </span>
+                </div>
               ))}
-            </React.Fragment>
-          ))}
-        </TableBody>
-      </Table>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <Link
+              href={`/projects/${project.id}`}
+              className="text-indigo-600 hover:underline text-sm"
+            >
+              View Project Details
+            </Link>
+          </div>
+        </motion.div>
+      ))}
     </div>
   );
 }

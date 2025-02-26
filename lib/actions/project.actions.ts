@@ -5,6 +5,7 @@ import { z } from "zod"
 
 import { prisma } from "@/lib/prisma"
 import { projectSchema } from "@/lib/validation/project"
+import { Prisma } from "@prisma/client"
 
 export async function createProject(data: z.infer<typeof projectSchema>,ownerId:string) {
   const validatedData = projectSchema.parse(data)
@@ -66,30 +67,34 @@ export const getProject = async (id: string) => {
 }
 
 
-export const getProjects = async ()=>{
-
+export const getProjects = async (query?: string) => {
   try {
-    const projects = await prisma.project.findMany(
-    {
-      include:{
-        tasks:true
-      }
-    }
-  )
-  return {
-    success:true,
-    data:projects
+    const projects = await prisma.project.findMany({
+      include: {
+        tasks: true,
+      },
+      where: query
+        ? {
+            OR: [
+              { projectName: { contains: query, mode: "insensitive" } },
+              { description: { contains: query, mode: "insensitive" } },
+            ],
+          }
+        : undefined,
+    });
 
-  }
-  } catch (error) {
-    console.log(error)
     return {
-      success:false,
-      data:null
-    }
-    
+      success: true,
+      data: projects,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      data: null,
+    };
   }
+};
 
-  
 
-}
+

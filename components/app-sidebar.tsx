@@ -123,12 +123,12 @@ const data = {
   projects: [
     {
       name: "settings",
-      url: "#",
+      url: "/setting",
       icon: Settings2,
     },
     {
       name: "profile",
-      url: "#",
+      url: "/profile",
       icon: User,
     },
     {

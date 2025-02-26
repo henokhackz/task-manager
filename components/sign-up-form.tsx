@@ -14,6 +14,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "react-toastify"
+import { Loader2 } from "lucide-react"
 
 export function SignUpForm({
   className,
@@ -120,8 +121,8 @@ export function SignUpForm({
                   value={formData.password}
                    />
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading} >
-                  {isLoading ? 'loading...' : 'Sign Up'}
+                 <Button type="submit" disabled={isLoading} className='bg-indigo-600 text-white px-4 py-2 rounded-lg w-full hover:bg-indigo-700 duration-3000 transition-colors '>
+                  {isLoading ? <Loader2 className="mx-2 animate-spin duration-300 transition-all "/>: "Sign Up"}
                 </Button>
               </div>
               <div className="text-center text-sm">

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { getProject } from "@/lib/actions/project.actions";
-import { ArrowDown, ArrowLeft, ArrowLeftSquareIcon, ArrowRight, Pencil, ChevronDown } from "lucide-react";
+import {ArrowLeft, ChevronDown } from "lucide-react";
 
 import { Project , Task} from "@prisma/client";
 import {DragEndEvent, DndContext} from "@dnd-kit/core";
@@ -41,7 +41,7 @@ export default function ProjectDetails({
   const [project, setProject] = useState<Project | null>(null); 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { data, isPending } = authClient.useSession();
+  const { data} = authClient.useSession();
   const userId = data?.user?.id;
   const router = useRouter();
 

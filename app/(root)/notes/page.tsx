@@ -42,7 +42,14 @@ export default function NotesPage() {
 
   return (
     <div className='min-h-screen px-4 py-6  '>
+      <div className='w-full flex justify-between items-center mb-4'>
       <h1 className='text-2xl font-bold mb-4'>Your Notes</h1>
+      <Link href='/notes/new'>
+        <button className='bg-indigo-500 text-white py-2 px-4 rounded-lg transition-all duration-300 hover:bg-indigo-600'>create new note</button>
+      </Link>
+
+      </div>
+
       {notes.map((note) => (
         <div key={note.id} className="mb-4 p-4 border border-gray-300 rounded shadow bg-white ">
           <Link href={`/notes/${note.id}`}>

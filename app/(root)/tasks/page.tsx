@@ -9,15 +9,18 @@ import { toast } from "react-toastify";
 import { getTasks } from "@/lib/actions/task.actions";
 import {Task} from '@prisma/client'
 import Link from 'next/link'
+import Loader from '@/components/loader';
 
 
 const TaskDisplay = () => {
   const [filter, setFilter] = useState("ALL");
   const [tasks, setTasks] = useState<Task[] | []>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(()=>{
     const fetchTasks = async()=>{
       try{    
+        setIsLoading(true)
         const {success, data} = await getTasks()
         console.log(success, data, 'data')
         
@@ -26,7 +29,9 @@ const TaskDisplay = () => {
         }else{
           toast.error('something went wrong please try later or never i dont care ')
         }
+        setIsLoading(false)
       }catch(error){
+        setIsLoading(false)
         console.log(error)
         toast.error('something went wrong ')
       }
@@ -34,12 +39,21 @@ const TaskDisplay = () => {
     fetchTasks()
   }, [])
 
+
+ if (isLoading) {
+     return (
+       <div className="flex items-center justify-center min-h-screen">
+         <Loader />
+       </div>
+     );
+   }
+
   const filteredTasks = filter === "ALL" ? tasks : tasks.filter((task) => task.status === filter);
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Task Manager</h1>
-      <div className="flex justify-between mb-4">
+      <h1 className="text-2xl font-bold mb-4">Your Tasks</h1>
+      <div className="flex justify-between mb-4 w-full ">
         <Select onValueChange={setFilter}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Filter Tasks" />
@@ -51,7 +65,7 @@ const TaskDisplay = () => {
             <SelectItem value="COMPLETED">Completed</SelectItem>
           </SelectContent>
         </Select>
-        <Button>Add Task</Button>
+        <Button className="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 duration-300 transition-all ">Add Task</Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredTasks.map((task) => (
@@ -61,7 +75,7 @@ const TaskDisplay = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="p-4 border-l-4 border-blue-500 shadow-md">
+            <Card className="p-4 border-l-4 border-indigo-500 shadow-md">
               <CardContent>
                 <Link href={`/projects/${task.projectId}/tasks/${task.id}`}>
                 <h2 className="text-lg font-semibold">{task.title}</h2>
