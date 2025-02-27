@@ -9,7 +9,7 @@ import { getTask } from "@/lib/actions/task.actions";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash } from "lucide-react";
 
-const TaskDetails = ({ params }: { params: { taskId: string } }) => {
+const TaskDetails = ({ params }: { params:Promise<{ taskId: string }>}) => {
   const [task, setTask] = useState<Task | null>(null);
   const [taskId, setTaskId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);

@@ -4,6 +4,7 @@ import { useUserId } from "../../../hooks/useUser";
 import { getUserDetails } from "@/lib/actions/user.actions";
 import Loader from "@/components/loader";
 import { User } from "@prisma/client";
+import Image from "next/image";
 import { getCount } from "@/lib/actions/user.actions";
 
 export default function ProfilePage() {
@@ -56,8 +57,10 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md space-y-8">
         {/* Profile Header */}
         <div className="flex items-center space-x-6">
-          <img
+          <Image
             className="w-24 h-24 rounded-full border-4 border-indigo-500"
+            height={100}
+            width={100}
             src={user.image || '/avatar.webp'}
             alt="Profile Picture"
           />

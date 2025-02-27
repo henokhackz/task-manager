@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import {
   Form,
   FormControl,
-  FormDescription,
+
   FormField,
   FormItem,
   FormLabel,
@@ -54,6 +54,7 @@ export function ProjectForm() {
     if(id && values && !isPending){
       try{
         setIsSubmitting(true)
+        //@ts-expect-error schema error
         const {success, data} =  await createProject(values, id)
         console.log(data, 'data')
         if(success && data){
@@ -71,6 +72,7 @@ export function ProjectForm() {
       }catch(error){
         toast.error('Project creation failed')
         console.log(data, 'data')
+        console.log(error)
         setIsSubmitting(false)
       }
     }

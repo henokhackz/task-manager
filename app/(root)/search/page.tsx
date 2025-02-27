@@ -4,10 +4,11 @@ import { SidebarInput } from '@/components/ui/sidebar';
 import { getProjects } from '@/lib/actions/project.actions';
 import Loader from '@/components/loader'
 
-type SearchParams = { [key: string]: string | string[] | undefined };
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 const SearchPage = async ({ searchParams }: { searchParams: SearchParams }) => {
-  const query = await searchParams.query as string;
+  //@ts-expect-error not sure why
+  const query = await searchParams?.query as string;
 
   let searchResults = null
 

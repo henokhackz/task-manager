@@ -55,7 +55,7 @@ const MenuBar = () => {
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   
-  //@ts-ignore
+  //@ts-expect-error not sure why
   TextStyle.configure({ types: [ListItem.name] }),
   StarterKit.configure({
     bulletList: { keepMarks: true },
@@ -90,6 +90,11 @@ export default function EditorComponent() {
     fetchLatestNote()
   }, [userId])
 
+  if(isLoading){
+    return <div className="flex items-center justify-center h-screen"><Loader2 className="animate-spin" />
+    </div>
+  }
+
   return (
     <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={editorContent}
     >
@@ -101,11 +106,13 @@ export default function EditorComponent() {
 function EditorContentWrapper({ userId }: { userId: string | null }) {
   const { editor } = useCurrentEditor()
   const [isLoading, setIsLoading] = useState(false)
+  const [editorContent, setEditorContent] = useState('<p>Start writing...</p>')
   const router = useRouter()
 
   useEffect(() => {
     if (!editor) return
     editor.on('update', ({ editor }) => {
+      setEditorContent(editor.getHTML())
     })
   }, [editor])
 
@@ -115,6 +122,7 @@ function EditorContentWrapper({ userId }: { userId: string | null }) {
       setIsLoading(true)
       const title = editor.getText().trim().slice(0, 50)
       const content = editor.getHTML()
+      console.log(editorContent, 'content')
 
       const { success } = await createNote({ title, content }, userId)
 

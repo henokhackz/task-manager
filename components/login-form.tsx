@@ -28,6 +28,7 @@ export function LoginForm({
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -80,6 +81,7 @@ export function LoginForm({
             <div className="grid gap-6">
               <div className="grid gap-6">
                 <div className="grid gap-2">
+                  {error&& <p className='text-red-500'>{error}</p>}
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"

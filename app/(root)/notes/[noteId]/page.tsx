@@ -7,7 +7,7 @@ import { getNoteById, deleteNote } from '@/lib/actions/note.actions';
 import { Note } from '@prisma/client';
 import Loader from '@/components/loader';
 
-export default function NotePage({ params }: { params: { noteId: string } }) {
+export default function NotePage({ params }: { params:Promise<{ noteId: string }>}) {
   const router = useRouter();
   const [noteId, setNoteId] = useState<string | null>(null);
   const [note, setNote] = useState<Note | null>(null);

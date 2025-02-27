@@ -18,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Link from "next/link";
+
 import { updateTaskStatus } from "@/lib/actions/task.actions";
 import {Column} from "@/components/shared/column";
 

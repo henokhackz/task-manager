@@ -5,7 +5,6 @@ import { z } from "zod"
 
 import { prisma } from "@/lib/prisma"
 import { projectSchema } from "@/lib/validation/project"
-import { Prisma } from "@prisma/client"
 
 export async function createProject(data: z.infer<typeof projectSchema>,ownerId:string) {
   const validatedData = projectSchema.parse(data)
