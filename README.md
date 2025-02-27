@@ -5,8 +5,7 @@ Here's a clean, well-structured, and visually appealing `README.md` file for you
 
 A **modern, efficient, and intuitive** task management app that helps users **organize tasks, projects, and notes** seamlessly. It features **drag-and-drop** functionality, user authentication, and a beautiful UI.
 
-![Dashboard](https://github.com/henokhackz/task-manager/blob/751993a0bd0a53688f8db8bdaae8ec9731b92b9e/screen3.png)
-
+![image alt](https://github.com/henokhackz/task-manager/blob/751993a0bd0a53688f8db8bdaae8ec9731b92b9e/screen3.png)
 ---
 
 ## ✨ Features  
