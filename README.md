@@ -22,7 +22,7 @@ A **modern, efficient, and intuitive** task management app that helps users **or
 ## 🖼 Screenshots  
 
 ### 🔹 Login Page  
-![Login](https://github.com/henokhackz/task-manager/blob/751993a0bd0a53688f8db8bdaae8ec9731b92b9e/screen1.png)
+![image alt](https://github.com/henokhackz/task-manager/blob/751993a0bd0a53688f8db8bdaae8ec9731b92b9e/screen1.png)
 
 ### 🔹 Home Page  
 ![Home](https://github.com/henokhackz/task-manager/blob/751993a0bd0a53688f8db8bdaae8ec9731b92b9e/screen2.png)
