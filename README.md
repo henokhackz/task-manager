@@ -1,4 +1,3 @@
-Here's a clean, well-structured, and visually appealing `README.md` file for your project:  
 
 ```md
 # 🚀 Task Manager
