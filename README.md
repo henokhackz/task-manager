@@ -1,4 +1,3 @@
-```md
 # 🚀 Task Manager
 
 A **modern, efficient, and intuitive** task management app that helps users **organize tasks, projects, and notes** seamlessly. It features **drag-and-drop** functionality, user authentication, and a beautiful UI.
@@ -46,60 +45,3 @@ A **modern, efficient, and intuitive** task management app that helps users **or
 ```sh
 git clone https://github.com/your-username/task-manager.git
 cd task-manager
-```
-
-### 2️⃣ Install Dependencies  
-```sh
-npm install
-```
-
-### 3️⃣ Set Up Environment Variables  
-Create a `.env.local` file and add the required values.
-
-### 4️⃣ Run the Project  
-```sh
-npm run dev
-```
-The app will be available at **`http://localhost:3000`** 🚀  
-
----
-
-## 🎯 Upcoming Features  
-
-🔹 **Dark Mode Support** 🌙  
-🔹 **Collaboration (Team Tasks)** 👥  
-🔹 **Task Prioritization & Deadlines** ⏳  
-
----
-
-## 🛠 Contributing  
-
-Contributions are **welcome**! If you'd like to improve this project, feel free to **fork the repo, create a feature branch, and submit a pull request**. 🚀  
-
-1. **Fork the repository**  
-2. **Create a new branch**  
-   ```sh
-   git checkout -b feature-name
-   ```
-3. **Make your changes & commit**  
-   ```sh
-   git commit -m "Add new feature"
-   ```
-4. **Push to your branch**  
-   ```sh
-   git push origin feature-name
-   ```
-5. **Submit a pull request** 🎉  
-
----
-
-## 📄 License  
-
-This project is **MIT Licensed**. Feel free to use, modify, and distribute it as needed.
-
----
-
-## ⭐ Show Some Love  
-
-If you like this project, **leave a star ⭐ on GitHub!**  
-```
